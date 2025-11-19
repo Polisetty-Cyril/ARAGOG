@@ -686,7 +686,7 @@ copies or substantial portions of the Software.
 
 <div align="center">
 
-### Cyril Polisetty
+### TEAM
 
 [![GitHub](https://img.shields.io/badge/GitHub-Polisetty--Cyril-181717?style=for-the-badge&logo=github)](https://github.com/Polisetty-Cyril)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/cyril-polisetty)
