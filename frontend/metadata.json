@@ -1,0 +1,8 @@
+{
+  "name": "MedPulse AI",
+  "description": "An enterprise-grade Medical RAG AI platform providing intelligent health insights with a professional, glassmorphic aesthetic.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
