@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Node
+node_modules/
+dist/
+build/
+.cache/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Distribution
+*.egg-info/
+dist/
+build/
+
+# Checkpoints (keep structure, ignore large files)
+# Uncomment if you want to exclude model files
+# medical_qa_checkpoints/**/*.pt
+# medical_qa_checkpoints/**/*.faiss
+
+# Temporary files
+*.tmp
+*.bak
+.temp/
