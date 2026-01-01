@@ -112,6 +112,16 @@ Traditional medical QA systems face critical challenges:
 - Checkpoint-based model loading
 
 </td>
+<td width="50%">
+
+### 🔐 User Authentication & Database
+- **MySQL Database** with user management
+- JWT-based authentication system
+- Secure password hashing (bcrypt)
+- Chat history and conversation tracking
+- User settings and preferences
+
+</td>
 </tr>
 </table>
 
@@ -272,16 +282,50 @@ MedicalMoE(
 ```bash
 # System Requirements
 - Python 3.8 or higher
+- MySQL 8.0 or higher
 - 4-8GB RAM (minimum)
 - 10GB disk space (for checkpoints and indexes)
 ```
 
-### Setup Instructions
+### Database Setup
+
+1. **Install MySQL Server**
+   - Download from: https://dev.mysql.com/downloads/mysql/
+   - During installation, set root password
+
+2. **Create Database**
+```sql
+# Connect to MySQL
+mysql -u root -p
+
+# Create database
+CREATE DATABASE IF NOT EXISTS aragog_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+# Import schema
+USE aragog_db;
+SOURCE backend/database/schema.sql;
+```
+
+3. **Configure Environment Variables**
+```bash
+# Create .env file in backend directory
+cd backend
+echo DB_HOST=localhost >> .env
+echo DB_PORT=3306 >> .env
+echo DB_USER=root >> .env
+echo DB_PASSWORD=your_password >> .env
+echo DB_NAME=aragog_db >> .env
+echo SECRET_KEY=your-secret-key-here >> .env
+```
+
+### Backend Setup
+
+### Backend Setup
 
 1. **Clone the repository**
 ```bash
 git clone https://github.com/Polisetty-Cyril/ARAGOG.git
-cd ARAGOG
+cd ARAGOG/ARAGOG
 ```
 
 2. **Create virtual environment** (recommended)
@@ -295,10 +339,36 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-3. **Install dependencies**
+3. **Install backend dependencies**
 ```bash
+cd backend
+pip install fastapi uvicorn sqlalchemy pymysql bcrypt python-jose python-multipart python-dotenv
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 pip install sentence-transformers faiss-cpu transformers pandas numpy
+```
+
+4. **Start backend server**
+```bash
+python main.py
+# Server runs on http://localhost:8000
+```
+
+### Frontend Setup
+
+1. **Navigate to frontend directory**
+```bash
+cd ../frontend
+```
+
+2. **Install Node.js dependencies**
+```bash
+npm install
+```
+
+3. **Start development server**
+```bash
+npm run dev
+# Frontend runs on http://localhost:5173
 ```
 
 4. **Download pre-trained checkpoints**
@@ -318,6 +388,85 @@ pip install sentence-transformers faiss-cpu transformers pandas numpy
 ---
 
 ## 🚀 Usage
+
+### Web Application (Full Stack)
+
+1. **Start Backend Server**
+```bash
+cd backend
+python main.py
+# API available at http://localhost:8000
+```
+
+2. **Start Frontend**
+```bash
+cd frontend
+npm run dev
+# Web app available at http://localhost:5173
+```
+
+3. **Register/Login**
+- Open browser to http://localhost:5173
+- Create a new account or login
+- Start asking medical questions!
+
+### API Endpoints
+
+**Authentication**
+```bash
+# Register new user
+POST /api/auth/register
+{
+  "email": "user@example.com",
+  "password": "password123",
+  "full_name": "John Doe",
+  "nickname": "johnd"
+}
+
+# Login
+POST /api/auth/login
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+
+# Get current user
+GET /api/auth/me
+Authorization: Bearer <token>
+```
+
+**Medical QA**
+```bash
+# Ask a question
+POST /api/ask
+{
+  "question": "What are the symptoms of diabetes?",
+  "conversation_history": []
+}
+
+# Multi-turn conversation
+POST /api/conversation
+{
+  "question": "What are the treatments?",
+  "session_id": "session_123",
+  "nickname": "user"
+}
+```
+
+**Chat Management**
+```bash
+# Get user's chats
+GET /api/chats
+Authorization: Bearer <token>
+
+# Save chat
+POST /api/chats
+Authorization: Bearer <token>
+{
+  "title": "Diabetes Consultation",
+  "messages": [...]
+}
+```
 
 ### Interactive Conversation Mode
 
@@ -396,6 +545,38 @@ python src/medical_qa_inference.py
 
 ```
 RAG(Medical)/
+├── 📂 backend/                          # Backend API server
+│   ├── main.py                          # FastAPI application
+│   ├── requirements.txt                 # Python dependencies
+│   ├── 📂 database/                     # Database layer
+│   │   ├── schema.sql                   # MySQL database schema
+│   │   ├── models.py                    # SQLAlchemy ORM models
+│   │   └── __init__.py
+│   ├── 📂 models/                       # ML models
+│   │   ├── medical_qa_conversation.py   # Conversation system
+│   │   ├── medical_qa_inference.py      # Inference engine
+│   │   └── __init__.py
+│   └── 📂 services/                     # Business logic
+│       ├── medical_qa_service.py        # QA service wrapper
+│       └── __init__.py
+│
+├── 📂 frontend/                         # React frontend
+│   ├── index.html
+│   ├── package.json
+│   ├── vite.config.ts
+│   └── 📂 src/
+│       ├── App.tsx
+│       ├── components/
+│       │   ├── AuthModal.tsx            # Login/Register
+│       │   ├── ChatInterface.tsx        # Main chat UI
+│       │   ├── LandingPage.tsx          # Home page
+│       │   ├── MessageBubble.tsx        # Message display
+│       │   ├── SettingsModal.tsx        # User settings
+│       │   └── Sidebar.tsx              # Chat history
+│       └── services/
+│           ├── aragog.ts                # API client
+│           └── auth.ts                  # Auth service
+│
 ├── 📂 src/                              # Source code
 │   ├── medical_qa_conversation.py       # Multi-turn conversation system
 │   └── medical_qa_inference.py          # Core inference engine
