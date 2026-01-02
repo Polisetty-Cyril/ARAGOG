@@ -18,12 +18,15 @@ Runs on `http://localhost:5173`
 
 ## Features
 
-- Modern chat interface
+- Modern chat interface with secure authentication
+- User registration and login with JWT tokens
+- Password visibility toggle for better UX
 - Multi-turn conversations
 - Real-time responses from ARAGOG
 - Confidence scores and domain display
 - Dark/light theme support
 - Responsive design
+- Protected routes and user sessions
 
 ## Tech Stack
 
