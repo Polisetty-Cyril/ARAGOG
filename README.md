@@ -10,8 +10,9 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 [![Status](https://img.shields.io/badge/Status-Production_Ready-success?style=for-the-badge)]()
 [![Team](https://img.shields.io/badge/Built_By-Team-blueviolet?style=for-the-badge)]()
+[![Auth](https://img.shields.io/badge/Auth-Secure-blue?style=for-the-badge)]()
 
-**A production-grade medical question-answering system leveraging Mixture of Experts (MoE) architecture for intelligent domain routing across 5 medical specialties with 98.10% routing accuracy**
+**A production-grade medical question-answering system leveraging Mixture of Experts (MoE) architecture for intelligent domain routing across 5 medical specialties with 98.10% routing accuracy and secure user authentication**
 
 *Developed by a passionate team of ML engineers, NLP specialists, and medical AI researchers*
 
