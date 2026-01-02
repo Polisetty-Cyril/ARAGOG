@@ -77,5 +77,5 @@ CREATE TABLE conversation_sessions (
 ) ENGINE=InnoDB;
 
 -- Create a default admin user (password: admin123 - CHANGE IN PRODUCTION!)
-INSERT INTO users (email, name, password_hash, nickname) 
+INSERT INTO users (email, full_name, password_hash, nickname) 
 VALUES ('admin@aragog.ai', 'Admin User', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5UpURPTbPjN.2', 'Admin');
