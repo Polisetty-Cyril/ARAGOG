@@ -418,6 +418,11 @@ async def login(request: LoginRequest):
                 "nickname": user.nickname
             }
         )
+    except HTTPException:
+        raise
+    except Exception as e:
+        session.rollback()
+        raise HTTPException(status_code=500, detail=f"Login failed: {str(e)}")
     finally:
         session.close()
 

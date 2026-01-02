@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Mail, Lock, User as UserIcon, Activity, ArrowRight, Github, Chrome } from 'lucide-react';
+import { X, Mail, Lock, User as UserIcon, Activity, ArrowRight, Github, Chrome, Eye, EyeOff } from 'lucide-react';
 import { useStore } from '../store';
 import { authService } from '../services/auth';
 
@@ -16,6 +16,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ show, onClose }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const setUser = useStore(state => state.setUser);
@@ -144,13 +145,25 @@ const AuthModal: React.FC<AuthModalProps> = ({ show, onClose }) => {
                     <Lock className="h-4 w-4 text-gray-500 group-focus-within:text-indigo-400 transition-colors" />
                   </div>
                   <input 
-                    type="password" 
+                    type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Password"
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3 pl-11 pr-4 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/20 outline-none transition-all placeholder-gray-600"
+                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3 pl-11 pr-11 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/20 outline-none transition-all placeholder-gray-600"
                     required
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-500 hover:text-indigo-400 transition-colors"
+                    tabIndex={-1}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </button>
                 </div>
 
                 <button 
