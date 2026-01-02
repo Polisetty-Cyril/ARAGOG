@@ -1,13 +1,15 @@
 # MedPulse AI - Backend
 
-FastAPI backend server that integrates the ARAGOG medical QA model.
+FastAPI backend server that integrates the ARAGOG medical QA model with secure user authentication.
 
 ## Overview
 
 This backend provides REST API endpoints for:
+- User authentication and authorization (register, login, JWT tokens)
 - Single-turn medical question answering
 - Multi-turn conversation with context awareness
 - Medical domain routing and retrieval
+- User profile management
 
 ## Architecture
 
