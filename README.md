@@ -1,3 +1,19 @@
+---
+title: ARAGOG Medical AI Assistant
+emoji: 🏥
+colorFrom: purple
+colorTo: blue
+sdk: docker
+pinned: true
+license: mit
+tags:
+  - medical-qa
+  - healthcare
+  - rag
+  - question-answering
+  - mixture-of-experts
+---
+
 <div align="center">
 
 # 🏥 ARAGOG - Medical QA System
@@ -9,14 +25,13 @@
 [![FAISS](https://img.shields.io/badge/FAISS-Vector_DB-00ADD8?style=for-the-badge&logo=meta&logoColor=white)](https://github.com/facebookresearch/faiss)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 [![Status](https://img.shields.io/badge/Status-Production_Ready-success?style=for-the-badge)]()
-[![Team](https://img.shields.io/badge/Built_By-Team-blueviolet?style=for-the-badge)]()
-[![Auth](https://img.shields.io/badge/Auth-Secure-blue?style=for-the-badge)]()
+[![Hugging Face](https://img.shields.io/badge/🤗-Hugging_Face_Spaces-FFD21E?style=for-the-badge)](https://huggingface.co/spaces)
 
-**A production-grade medical question-answering system leveraging Mixture of Experts (MoE) architecture for intelligent domain routing across 5 medical specialties with 98.10% routing accuracy and secure user authentication**
+**A production-grade medical question-answering system leveraging Mixture of Experts (MoE) architecture for intelligent domain routing across 15+ medical specialties with high accuracy and secure user authentication**
 
 *Developed by a passionate team of ML engineers, NLP specialists, and medical AI researchers*
 
-[Features](#-key-features) • [Architecture](#-system-architecture) • [Installation](#-installation) • [Usage](#-usage) • [Team](#-meet-the-team)
+[Features](#-key-features) • [Architecture](#-system-architecture) • [Installation](#-installation) • [Hugging Face Spaces](#-deploy-on-hugging-face-spaces) • [Usage](#-usage)
 
 ---
 
