@@ -6,7 +6,6 @@ python-multipart>=0.0.6
 
 # Database
 sqlalchemy>=2.0.0
-mysqlclient>=2.2.0
 pymysql>=1.1.0
 
 # ARAGOG Model Dependencies
@@ -18,3 +17,5 @@ faiss-cpu>=1.7.4
 
 # Utilities
 python-dotenv>=1.0.0
+pyjwt>=2.8.0
+bcrypt>=4.1.0
