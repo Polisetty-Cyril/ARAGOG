@@ -243,7 +243,6 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ isOpen, onClose }) => {
                 dangerouslySetInnerHTML={{ __html: content }}
               />
             </div>
-            </div>
           )}
         </div>
       </div>
