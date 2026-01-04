@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 // Import Variants to fix animation type errors
 import { motion, AnimatePresence, Variants } from 'framer-motion';
-import { Activity, Brain, Shield, Zap, ArrowRight, Github, Twitter, Linkedin, Menu, X, Search, Info, Cpu, Lock, Globe, Command } from 'lucide-react';
+import { Activity, Brain, Shield, Zap, ArrowRight, Github, Linkedin, Menu, X, Search, Info, Cpu, Lock, Globe, Command } from 'lucide-react';
 import AuthModal from './AuthModal';
 import DocumentViewer from './DocumentViewer';
 import { useStore } from '../store';
@@ -516,9 +516,12 @@ const LandingPage: React.FC = () => {
               Advanced Retrieval-Augmented Generation with Optimized Gating for medical question answering. Powered by Mixture of Experts (MoE) and FAISS vector search.
             </p>
             <div className="flex gap-6 opacity-40">
-              <Twitter className="w-5 h-5 hover:text-[#667EEA] cursor-pointer transition-colors" />
-              <Github className="w-5 h-5 hover:text-[#667EEA] cursor-pointer transition-colors" />
-              <Linkedin className="w-5 h-5 hover:text-[#667EEA] cursor-pointer transition-colors" />
+              <a href="https://github.com/Polisetty-Cyril/ARAGOG" target="_blank" rel="noopener noreferrer">
+                <Github className="w-5 h-5 hover:text-[#667EEA] cursor-pointer transition-colors" />
+              </a>
+              <a href="https://www.linkedin.com/in/cyril-polishetty-ba2a8a2a7/" target="_blank" rel="noopener noreferrer">
+                <Linkedin className="w-5 h-5 hover:text-[#667EEA] cursor-pointer transition-colors" />
+              </a>
             </div>
           </div>
           <div>
