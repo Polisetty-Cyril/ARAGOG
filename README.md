@@ -1,19 +1,3 @@
----
-title: ARAGOG Medical AI Assistant
-emoji: 🏥
-colorFrom: purple
-colorTo: blue
-sdk: docker
-pinned: true
-license: mit
-tags:
-  - medical-qa
-  - healthcare
-  - rag
-  - question-answering
-  - mixture-of-experts
----
-
 <div align="center">
 
 # 🏥 ARAGOG - Medical QA System
