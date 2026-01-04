@@ -9,7 +9,7 @@
 [![FAISS](https://img.shields.io/badge/FAISS-Vector_DB-00ADD8?style=for-the-badge&logo=meta&logoColor=white)](https://github.com/facebookresearch/faiss)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 [![Status](https://img.shields.io/badge/Status-Production_Ready-success?style=for-the-badge)]()
-[![Hugging Face](https://img.shields.io/badge/🤗-Hugging_Face_Spaces-FFD21E?style=for-the-badge)](https://huggingface.co/spaces)
+[![Hugging Face](https://img.shields.io/badge/🤗-Live_Demo-FFD21E?style=for-the-badge&logo=huggingface&logoColor=white)](https://huggingface.co/spaces/CyrilPolisetty/aragog-medical-ai)
 
 **A production-grade medical question-answering system leveraging Mixture of Experts (MoE) architecture for intelligent domain routing across 15+ medical specialties with high accuracy and secure user authentication**
 
