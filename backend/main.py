@@ -6,6 +6,8 @@ Integrates ARAGOG medical QA model with REST API
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, EmailStr
 from typing import List, Optional
 import uvicorn
@@ -52,17 +54,27 @@ qa_service = None
 # Build database connection string from environment variables
 from urllib.parse import quote_plus
 
-DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_PORT = os.getenv("DB_PORT", "3306")
-DB_USER = os.getenv("DB_USER", "root")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "")
-DB_NAME = os.getenv("DB_NAME", "aragog_db")
+# Check if running on Hugging Face Spaces (use SQLite) or locally (use MySQL)
+IS_HUGGINGFACE = os.getenv("SPACE_ID") is not None
 
-# URL-encode the password to handle special characters like @, :, etc.
-DB_PASSWORD_ENCODED = quote_plus(DB_PASSWORD)
-
-# MySQL connection string format: mysql+pymysql://user:password@host:port/database
-DB_CONNECTION_STRING = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD_ENCODED}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+if IS_HUGGINGFACE:
+    # Use SQLite for Hugging Face Spaces
+    DB_CONNECTION_STRING = "sqlite:///./aragog.db"
+    print("🔧 Using SQLite database for Hugging Face deployment")
+else:
+    # Use MySQL for local/production deployment
+    DB_HOST = os.getenv("DB_HOST", "localhost")
+    DB_PORT = os.getenv("DB_PORT", "3306")
+    DB_USER = os.getenv("DB_USER", "root")
+    DB_PASSWORD = os.getenv("DB_PASSWORD", "")
+    DB_NAME = os.getenv("DB_NAME", "aragog_db")
+    
+    # URL-encode the password to handle special characters like @, :, etc.
+    DB_PASSWORD_ENCODED = quote_plus(DB_PASSWORD)
+    
+    # MySQL connection string format: mysql+pymysql://user:password@host:port/database
+    DB_CONNECTION_STRING = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD_ENCODED}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    print(f"🔧 Using MySQL database: {DB_HOST}:{DB_PORT}/{DB_NAME}")
 
 # Initialize Database
 db = Database(DB_CONNECTION_STRING)
@@ -164,14 +176,135 @@ async def startup_event():
         raise
 
 
-@app.get("/")
-async def root():
-    """Root endpoint"""
+@app.get("/api/status")
+async def api_status():
+    """API status endpoint"""
     return {
         "message": "MedPulse AI Backend",
         "version": "1.0.0",
         "status": "running"
     }
+
+
+@app.get("/api/document/research-paper")
+async def get_research_paper():
+    """Get ARAGOG research paper content"""
+    # Return HTML content for the research paper
+    return {
+        "content": """
+            <h1>ARAGOG: Advanced Medical Question-Answering System</h1>
+            <h2>Research Paper</h2>
+            
+            <h3>Abstract</h3>
+            <p>ARAGOG (Advanced Retrieval-Augmented Generation for Optimal Guidance) is a state-of-the-art medical question-answering system that leverages a Mixture-of-Experts (MoE) architecture combined with domain-specific FAISS indexes to provide accurate, context-aware medical information.</p>
+            
+            <h3>1. Introduction</h3>
+            <p>The healthcare industry faces significant challenges in information accessibility and accuracy. ARAGOG addresses these challenges by implementing a sophisticated AI system that combines:</p>
+            <ul>
+                <li>Mixture-of-Experts architecture for domain specialization</li>
+                <li>FAISS-based vector search for rapid information retrieval</li>
+                <li>Context-aware conversation management</li>
+                <li>Multi-domain medical knowledge integration</li>
+            </ul>
+            
+            <h3>2. System Architecture</h3>
+            <h4>2.1 Mixture-of-Experts (MoE)</h4>
+            <p>The MoE architecture enables domain-specific expertise across multiple medical specialties:</p>
+            <ul>
+                <li><strong>Cardiology:</strong> Heart and cardiovascular conditions</li>
+                <li><strong>Neurology:</strong> Brain and nervous system disorders</li>
+                <li><strong>Dermatology:</strong> Skin conditions and treatments</li>
+                <li><strong>Diabetes & Digestive:</strong> Metabolic and gastrointestinal health</li>
+                <li><strong>General Medicine:</strong> Common health concerns</li>
+            </ul>
+            
+            <h4>2.2 Vector Search with FAISS</h4>
+            <p>ARAGOG utilizes Facebook AI Similarity Search (FAISS) for efficient semantic search across medical knowledge bases. Each domain maintains its own FAISS index for optimized retrieval.</p>
+            
+            <h4>2.3 Embedder Model</h4>
+            <p>The system uses the <code>all-MiniLM-L6-v2</code> sentence transformer model for generating embeddings, providing a balance between performance and accuracy.</p>
+            
+            <h3>3. Key Features</h3>
+            <h4>3.1 Conversational Context</h4>
+            <p>ARAGOG maintains conversation history to provide context-aware responses, enabling follow-up questions and clarifications.</p>
+            
+            <h4>3.2 Confidence Scoring</h4>
+            <p>Each response includes a confidence score based on the semantic similarity between the query and retrieved answers.</p>
+            
+            <h4>3.3 Multi-Expert Routing</h4>
+            <p>The MoE router intelligently selects the most appropriate domain expert(s) for each query, ensuring specialized knowledge application.</p>
+            
+            <h3>4. Technical Implementation</h3>
+            <h4>4.1 Backend Stack</h4>
+            <ul>
+                <li><strong>FastAPI:</strong> High-performance REST API</li>
+                <li><strong>PyTorch:</strong> Deep learning framework</li>
+                <li><strong>Sentence Transformers:</strong> Embedding generation</li>
+                <li><strong>FAISS:</strong> Vector similarity search</li>
+                <li><strong>SQLAlchemy:</strong> Database ORM</li>
+            </ul>
+            
+            <h4>4.2 Frontend Stack</h4>
+            <ul>
+                <li><strong>React + TypeScript:</strong> Modern UI framework</li>
+                <li><strong>Vite:</strong> Fast build tool</li>
+                <li><strong>Tailwind CSS:</strong> Utility-first styling</li>
+                <li><strong>Zustand:</strong> State management</li>
+            </ul>
+            
+            <h3>5. Performance Metrics</h3>
+            <p>ARAGOG demonstrates strong performance across various metrics:</p>
+            <ul>
+                <li><strong>Response Time:</strong> &lt;2s for most queries</li>
+                <li><strong>Accuracy:</strong> High confidence scores (&gt;0.8) for domain-specific queries</li>
+                <li><strong>Scalability:</strong> Supports concurrent users through efficient indexing</li>
+            </ul>
+            
+            <h3>6. Deployment</h3>
+            <p>ARAGOG is containerized using Docker and can be deployed on:</p>
+            <ul>
+                <li>Cloud platforms (Hugging Face Spaces, AWS, Azure)</li>
+                <li>On-premise servers</li>
+                <li>Kubernetes clusters</li>
+            </ul>
+            
+            <h3>7. Future Enhancements</h3>
+            <ul>
+                <li>Integration of larger language models (GPT-4, Claude)</li>
+                <li>Real-time medical literature updates</li>
+                <li>Multi-language support</li>
+                <li>Voice interaction capabilities</li>
+                <li>Integration with electronic health records (EHR)</li>
+            </ul>
+            
+            <h3>8. Conclusion</h3>
+            <p>ARAGOG represents a significant advancement in medical AI, combining cutting-edge machine learning techniques with domain expertise to provide reliable, accessible medical information. The system's modular architecture allows for continuous improvement and expansion.</p>
+            
+            <h3>9. References</h3>
+            <ol>
+                <li>Vaswani et al. (2017). "Attention is All You Need"</li>
+                <li>Devlin et al. (2018). "BERT: Pre-training of Deep Bidirectional Transformers"</li>
+                <li>Johnson et al. (2019). "FAISS: A Library for Efficient Similarity Search"</li>
+                <li>Reimers & Gurevych (2019). "Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks"</li>
+            </ol>
+            
+            <hr />
+            <p><em>© 2026 ARAGOG Medical AI. All rights reserved.</em></p>
+        """
+    }
+
+
+@app.get("/api/document/research-paper/download")
+async def download_research_paper():
+    """Download ARAGOG research paper as DOCX"""
+    docx_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "ARAGOG", "ARAGOG_Research_Paper.docx")
+    if os.path.exists(docx_path):
+        return FileResponse(
+            docx_path,
+            media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            filename="ARAGOG_Research_Paper.docx"
+        )
+    raise HTTPException(status_code=404, detail="Document not found")
 
 
 @app.get("/health", response_model=HealthResponse)
@@ -564,14 +697,51 @@ async def delete_chat(chat_id: int, current_user: User = Depends(get_current_use
 
 
 # ============================================================================
+# SERVE REACT FRONTEND
+# ============================================================================
+
+# Mount static files (React build)
+frontend_dist = os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend", "dist")
+
+if os.path.exists(frontend_dist):
+    # Serve static assets (JS, CSS, images)
+    app.mount("/assets", StaticFiles(directory=os.path.join(frontend_dist, "assets")), name="assets")
+    
+    @app.get("/")
+    async def serve_frontend():
+        """Serve React index.html"""
+        return FileResponse(os.path.join(frontend_dist, "index.html"))
+    
+    @app.get("/{full_path:path}")
+    async def serve_frontend_routes(full_path: str):
+        """Serve React app for all non-API routes (SPA routing)"""
+        # Don't catch API routes
+        if full_path.startswith("api/"):
+            raise HTTPException(status_code=404, detail="Not found")
+        
+        # Try to serve the file if it exists
+        file_path = os.path.join(frontend_dist, full_path)
+        if os.path.isfile(file_path):
+            return FileResponse(file_path)
+        
+        # Otherwise, return index.html (for React Router)
+        return FileResponse(os.path.join(frontend_dist, "index.html"))
+else:
+    @app.get("/")
+    async def root():
+        return {"message": "ARAGOG Medical AI API is running. Frontend not found. Build React app first."}
+
+
+# ============================================================================
 # MAIN
 # ============================================================================
 
 if __name__ == "__main__":
+    port = int(os.getenv("PORT", 7860))  # Use port 7860 for Hugging Face Spaces
     uvicorn.run(
         "main:app",
         host="0.0.0.0",
-        port=8000,
+        port=port,
         reload=True,
         log_level="info"
     )
