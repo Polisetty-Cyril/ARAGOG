@@ -54,17 +54,27 @@ qa_service = None
 # Build database connection string from environment variables
 from urllib.parse import quote_plus
 
-DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_PORT = os.getenv("DB_PORT", "3306")
-DB_USER = os.getenv("DB_USER", "root")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "")
-DB_NAME = os.getenv("DB_NAME", "aragog_db")
+# Check if running on Hugging Face Spaces (use SQLite) or locally (use MySQL)
+IS_HUGGINGFACE = os.getenv("SPACE_ID") is not None
 
-# URL-encode the password to handle special characters like @, :, etc.
-DB_PASSWORD_ENCODED = quote_plus(DB_PASSWORD)
-
-# MySQL connection string format: mysql+pymysql://user:password@host:port/database
-DB_CONNECTION_STRING = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD_ENCODED}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+if IS_HUGGINGFACE:
+    # Use SQLite for Hugging Face Spaces
+    DB_CONNECTION_STRING = "sqlite:///./aragog.db"
+    print("🔧 Using SQLite database for Hugging Face deployment")
+else:
+    # Use MySQL for local/production deployment
+    DB_HOST = os.getenv("DB_HOST", "localhost")
+    DB_PORT = os.getenv("DB_PORT", "3306")
+    DB_USER = os.getenv("DB_USER", "root")
+    DB_PASSWORD = os.getenv("DB_PASSWORD", "")
+    DB_NAME = os.getenv("DB_NAME", "aragog_db")
+    
+    # URL-encode the password to handle special characters like @, :, etc.
+    DB_PASSWORD_ENCODED = quote_plus(DB_PASSWORD)
+    
+    # MySQL connection string format: mysql+pymysql://user:password@host:port/database
+    DB_CONNECTION_STRING = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD_ENCODED}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    print(f"🔧 Using MySQL database: {DB_HOST}:{DB_PORT}/{DB_NAME}")
 
 # Initialize Database
 db = Database(DB_CONNECTION_STRING)
