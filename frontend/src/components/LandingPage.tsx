@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { Activity, Brain, Shield, Zap, ArrowRight, Github, Twitter, Linkedin, Menu, X, Search, Info, Cpu, Lock, Globe, Command } from 'lucide-react';
 import AuthModal from './AuthModal';
+import DocumentViewer from './DocumentViewer';
 import { useStore } from '../store';
 
 const ABOUT_PROMPTS = [
@@ -98,6 +99,7 @@ const LandingPage: React.FC = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAboutSearchOpen, setIsAboutSearchOpen] = useState(false);
+  const [isDocViewerOpen, setIsDocViewerOpen] = useState(false);
   const [promptIndex, setPromptIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedAbout, setSelectedAbout] = useState<string | null>(null);
@@ -155,7 +157,12 @@ const LandingPage: React.FC = () => {
         {/* Desktop Nav */}
         <div className="hidden lg:flex items-center gap-8 text-sm font-medium opacity-50">
           <a href="#features" className="hover:opacity-100 transition-opacity">Features</a>
-          <a href="#docs" className="hover:opacity-100 transition-opacity">Documentation</a>
+          <button 
+            onClick={() => setIsDocViewerOpen(true)}
+            className="hover:opacity-100 transition-opacity"
+          >
+            Documentation
+          </button>
         </div>
 
         <div className="flex items-center gap-3 md:gap-4">
@@ -370,7 +377,12 @@ const LandingPage: React.FC = () => {
               >
                 About Intelligence <Search className="w-5 h-5 text-indigo-400" />
               </button>
-              <a href="#docs" onClick={() => setIsMobileMenuOpen(false)} className="py-4 border-b border-white/5">Documentation</a>
+              <button 
+                onClick={() => { setIsMobileMenuOpen(false); setIsDocViewerOpen(true); }}
+                className="py-4 border-b border-white/5 text-left"
+              >
+                Documentation
+              </button>
               <button 
                 onClick={() => { setIsMobileMenuOpen(false); setShowAuthModal(true); }}
                 className="mt-4 w-full py-4 rounded-2xl border border-white/10 text-center"
@@ -539,6 +551,7 @@ const LandingPage: React.FC = () => {
       </footer>
 
       <AuthModal show={showAuthModal} onClose={() => setShowAuthModal(false)} />
+      <DocumentViewer isOpen={isDocViewerOpen} onClose={() => setIsDocViewerOpen(false)} />
     </div>
   );
 };

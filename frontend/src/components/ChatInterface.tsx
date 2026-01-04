@@ -37,7 +37,8 @@ const ChatInterface: React.FC = () => {
     updateChatTitle, 
     user,
     updateUserNickname,
-    setCurrentChat
+    setCurrentChat,
+    saveChatToDatabase
   } = useStore();
 
   const currentChat = chats.find(c => c.id === currentChatId);
@@ -108,14 +109,12 @@ const ChatInterface: React.FC = () => {
         controller.signal
       );
       
-      // Format confidence as percentage
-      const confidenceText = `Confidence: ${(result.confidence * 100).toFixed(1)}%`;
-      const domainText = `Domains: ${result.domains.join(', ')}`;
-      
       const assistantMsg = {
         id: Math.random().toString(36).substring(7),
         role: 'assistant' as const,
-        content: result.answer + `\n\n_${confidenceText} | ${domainText}_`,
+        content: result.answer,
+        confidence: result.confidence,
+        domains: result.domains,
         sources: [], // ARAGOG doesn't use external sources like Gemini
         timestamp: Date.now()
       };
@@ -124,6 +123,13 @@ const ChatInterface: React.FC = () => {
 
       if (currentChat && currentChat.messages.length <= 1) {
         updateChatTitle(chatId, input.slice(0, 40) + (input.length > 40 ? '...' : ''));
+      }
+
+      // Save chat to database after assistant response
+      if (user && user.token) {
+        saveChatToDatabase(chatId).catch(err => 
+          console.error('Failed to sync chat to database:', err)
+        );
       }
     } catch (error: any) {
       if (error.name === 'AbortError') {
