@@ -118,6 +118,19 @@ class MedicalQAService:
                 "status": "acknowledgment"
             }
         
+        # Handle self-introduction queries
+        about_patterns = ['who are you', 'what are you', 'tell me about yourself', 'introduce yourself', 'what can you do', 'your capabilities', 'about you']
+        if any(pattern in question_lower for pattern in about_patterns):
+            intro_msg = f"I'm ARAGOG Medical AI, an advanced medical question-answering system. I'm designed to provide accurate, evidence-based answers to medical questions across multiple specialties including:\n\n🫀 **Cardiology** - Heart and cardiovascular health\n🧠 **Neurology** - Brain and nervous system disorders\n🩺 **General Medicine** - Common health concerns\n💊 **Pharmacology** - Medications and treatments\n🔬 **Diagnostics** - Tests and procedures\n\nI use a sophisticated Mixture-of-Experts architecture with domain-specific knowledge bases to provide reliable medical information. While I can help answer questions, remember that I'm not a replacement for professional medical advice. Always consult with healthcare professionals for diagnosis and treatment.\n\nHow can I assist you with your medical questions today?"
+            return {
+                "answer": intro_msg,
+                "confidence": 1.0,
+                "domains": [],
+                "turn_number": len(memory.history) + 1,
+                "context_used": False,
+                "status": "introduction"
+            }
+        
         # Handle goodbye
         farewells = ['bye', 'goodbye', 'see you', 'take care']
         if any(farewell in question_lower for farewell in farewells):
