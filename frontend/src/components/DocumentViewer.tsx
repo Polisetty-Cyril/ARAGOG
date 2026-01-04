@@ -228,81 +228,107 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ isOpen, onClose }) => {
               </p>
             </div>
           ) : (
-            <div 
-              className="document-content prose prose-sm md:prose-base lg:prose-lg max-w-none"
-              style={{
-                '--tw-prose-body': isDark ? '#d1d5db' : '#374151',
-                '--tw-prose-headings': isDark ? '#ffffff' : '#111827',
-                '--tw-prose-links': isDark ? '#818cf8' : '#4f46e5',
-                '--tw-prose-bold': isDark ? '#ffffff' : '#111827',
-                '--tw-prose-code': isDark ? '#e0e7ff' : '#4f46e5',
-                '--tw-prose-hr': isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
-                '--tw-prose-quotes': isDark ? '#9ca3af' : '#6b7280',
-              } as React.CSSProperties}
-              dangerouslySetInnerHTML={{ __html: content }}
-            />
+            <div className="max-w-4xl mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8 lg:py-12">
+              <div 
+                className="document-content prose prose-sm md:prose-base lg:prose-lg max-w-none"
+                style={{
+                  '--tw-prose-body': isDark ? '#d1d5db' : '#374151',
+                  '--tw-prose-headings': isDark ? '#ffffff' : '#111827',
+                  '--tw-prose-links': isDark ? '#818cf8' : '#4f46e5',
+                  '--tw-prose-bold': isDark ? '#ffffff' : '#111827',
+                  '--tw-prose-code': isDark ? '#e0e7ff' : '#4f46e5',
+                  '--tw-prose-hr': isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+                  '--tw-prose-quotes': isDark ? '#9ca3af' : '#6b7280',
+                } as React.CSSProperties}
+                dangerouslySetInnerHTML={{ __html: content }}
+              />
+            </div>
+            </div>
           )}
         </div>
       </div>
 
       <style>{`
+        .document-content {
+          text-align: left;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+        }
         .document-content h1 {
           font-size: 2rem;
           font-weight: 700;
           margin-top: 0;
-          margin-bottom: 1rem;
+          margin-bottom: 1.5rem;
           line-height: 1.2;
+          color: ${isDark ? '#ffffff' : '#111827'};
         }
         .document-content h2 {
           font-size: 1.5rem;
           font-weight: 600;
-          margin-top: 2rem;
-          margin-bottom: 0.75rem;
+          margin-top: 2.5rem;
+          margin-bottom: 1rem;
+          line-height: 1.3;
+          color: ${isDark ? '#f3f4f6' : '#1f2937'};
         }
         .document-content h3 {
           font-size: 1.25rem;
           font-weight: 600;
-          margin-top: 1.5rem;
-          margin-bottom: 0.5rem;
+          margin-top: 2rem;
+          margin-bottom: 0.75rem;
+          line-height: 1.4;
+          color: ${isDark ? '#e5e7eb' : '#374151'};
         }
         .document-content h4 {
           font-size: 1.1rem;
           font-weight: 600;
-          margin-top: 1rem;
+          margin-top: 1.5rem;
           margin-bottom: 0.5rem;
+          line-height: 1.5;
         }
         .document-content p {
-          margin-bottom: 1rem;
-          line-height: 1.7;
+          margin-bottom: 1.25rem;
+          line-height: 1.8;
+          text-align: justify;
         }
         .document-content ul, .document-content ol {
-          margin: 1rem 0;
-          padding-left: 1.5rem;
+          margin: 1.25rem 0;
+          padding-left: 2rem;
+          line-height: 1.8;
         }
         .document-content li {
-          margin-bottom: 0.5rem;
+          margin-bottom: 0.75rem;
+          padding-left: 0.5rem;
         }
         .document-content code {
-          padding: 0.2rem 0.4rem;
-          border-radius: 0.25rem;
-          font-size: 0.875em;
-          background: ${isDark ? 'rgba(99, 102, 241, 0.1)' : 'rgba(79, 70, 229, 0.1)'};
+          padding: 0.25rem 0.5rem;
+          border-radius: 0.375rem;
+          font-size: 0.9em;
+          font-family: 'Courier New', monospace;
+          background: ${isDark ? 'rgba(99, 102, 241, 0.15)' : 'rgba(79, 70, 229, 0.1)'};
+          color: ${isDark ? '#c7d2fe' : '#4f46e5'};
         }
         .document-content hr {
-          margin: 2rem 0;
+          margin: 3rem 0;
           border: none;
-          border-top: 1px solid var(--tw-prose-hr);
+          border-top: 1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'};
         }
         .document-content strong {
           font-weight: 600;
+          color: ${isDark ? '#ffffff' : '#111827'};
+        }
+        .document-content em {
+          font-style: italic;
+          opacity: 0.8;
         }
 
         @media (max-width: 768px) {
-          .document-content h1 { font-size: 1.5rem; }
-          .document-content h2 { font-size: 1.25rem; }
-          .document-content h3 { font-size: 1.1rem; }
+          .document-content h1 { font-size: 1.75rem; margin-bottom: 1rem; }
+          .document-content h2 { font-size: 1.35rem; margin-top: 2rem; }
+          .document-content h3 { font-size: 1.15rem; margin-top: 1.5rem; }
           .document-content h4 { font-size: 1rem; }
-          .document-content { font-size: 0.875rem; }
+          .document-content p { font-size: 0.95rem; text-align: left; }
+          .document-content ul, .document-content ol { padding-left: 1.5rem; }
+          .document-content li { font-size: 0.95rem; }
         }
       `}</style>
     </div>
