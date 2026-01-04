@@ -109,14 +109,18 @@ const ChatInterface: React.FC = () => {
         controller.signal
       );
       
-      // Format confidence as percentage
-      const confidenceText = `Confidence: ${(result.confidence * 100).toFixed(1)}%`;
-      const domainText = `Domains: ${result.domains.join(', ')}`;
+      // Format confidence and domains metadata (only if domains exist)
+      let metadataText = '';
+      if (result.domains && result.domains.length > 0) {
+        const confidenceText = `Confidence: ${(result.confidence * 100).toFixed(1)}%`;
+        const domainText = `Domains: ${result.domains.join(', ')}`;
+        metadataText = `\n\n_${confidenceText} | ${domainText}_`;
+      }
       
       const assistantMsg = {
         id: Math.random().toString(36).substring(7),
         role: 'assistant' as const,
-        content: result.answer + `\n\n_${confidenceText} | ${domainText}_`,
+        content: result.answer + metadataText,
         sources: [], // ARAGOG doesn't use external sources like Gemini
         timestamp: Date.now()
       };
