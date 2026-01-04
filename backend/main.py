@@ -176,9 +176,9 @@ async def startup_event():
         raise
 
 
-@app.get("/")
-async def root():
-    """Root endpoint"""
+@app.get("/api/status")
+async def api_status():
+    """API status endpoint"""
     return {
         "message": "MedPulse AI Backend",
         "version": "1.0.0",
