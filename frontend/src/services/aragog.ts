@@ -154,6 +154,57 @@ export class AragogService {
       throw error;
     }
   }
+
+  /**
+   * Save chat to database
+   */
+  async saveChat(
+    title: string,
+    messages: Array<{ role: string; content: string; confidence?: number; domains?: string[] }>,
+    token: string
+  ): Promise<{ id: string; message: string }> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/chats`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ title, messages })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save chat');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error saving chat:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Load user's chats from database
+   */
+  async loadChats(token: string): Promise<any[]> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/chats`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to load chats');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error loading chats:', error);
+      throw error;
+    }
+  }
 }
 
 export const aragogService = new AragogService();

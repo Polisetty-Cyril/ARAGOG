@@ -2,6 +2,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { User, ChatSession, AppSettings, Message } from './types';
+import { aragogService } from './services/aragog';
 
 interface AppState {
   user: User | null;
@@ -22,6 +23,7 @@ interface AppState {
   updateMessageContent: (chatId: string, messageId: string, content: string) => void;
   updateChatTitle: (chatId: string, title: string) => void;
   setMessageFeedback: (chatId: string, messageId: string, feedback: 'positive' | 'negative' | null) => void;
+  saveChatToDatabase: (chatId: string) => Promise<void>;
   
   // Settings
   updateSettings: (settings: Partial<AppSettings>) => void;
@@ -114,6 +116,33 @@ export const useStore = create<AppState>()(
             : chat
         )
       })),
+
+      saveChatToDatabase: async (chatId) => {
+        const state = useStore.getState();
+        const chat = state.chats.find(c => c.id === chatId);
+        const user = state.user;
+        
+        if (!chat || !user || !user.token) {
+          console.warn('Cannot save chat: missing chat, user, or token');
+          return;
+        }
+
+        try {
+          await aragogService.saveChat(
+            chat.title,
+            chat.messages.map(m => ({
+              role: m.role,
+              content: m.content,
+              confidence: m.confidence,
+              domains: m.domains
+            })),
+            user.token
+          );
+          console.log('Chat saved to database successfully');
+        } catch (error) {
+          console.error('Failed to save chat to database:', error);
+        }
+      },
       
       updateSettings: (newSettings) => set((state) => ({
         settings: { ...state.settings, ...newSettings }

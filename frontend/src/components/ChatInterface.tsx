@@ -37,7 +37,8 @@ const ChatInterface: React.FC = () => {
     updateChatTitle, 
     user,
     updateUserNickname,
-    setCurrentChat
+    setCurrentChat,
+    saveChatToDatabase
   } = useStore();
 
   const currentChat = chats.find(c => c.id === currentChatId);
@@ -124,6 +125,13 @@ const ChatInterface: React.FC = () => {
 
       if (currentChat && currentChat.messages.length <= 1) {
         updateChatTitle(chatId, input.slice(0, 40) + (input.length > 40 ? '...' : ''));
+      }
+
+      // Save chat to database after assistant response
+      if (user && user.token) {
+        saveChatToDatabase(chatId).catch(err => 
+          console.error('Failed to sync chat to database:', err)
+        );
       }
     } catch (error: any) {
       if (error.name === 'AbortError') {
