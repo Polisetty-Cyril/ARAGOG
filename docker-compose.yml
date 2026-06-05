@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  backend:
+    image: python:3.11-slim
+    working_dir: /app/backend
+    volumes:
+      - ./:/app
+    environment:
+      SPACE_ID: local
+      PYTHONUNBUFFERED: "1"
+    ports:
+      - "8000:8000"
+    command: >
+      sh -c "pip install --no-cache-dir -r /app/requirements.txt &&
+      uvicorn main:app --host 0.0.0.0 --port 8000"

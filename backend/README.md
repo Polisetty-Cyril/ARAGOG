@@ -84,5 +84,5 @@ The backend integrates the ARAGOG model through:
 ## Dependencies
 
 The ARAGOG model requires:
-- `medical_qa_checkpoints/medical_qa_v1.0/` directory in the project root
+- `backend/checkpoints/medical_qa_v1.0/` directory in the project root
 - Pre-trained MoE router and FAISS indexes

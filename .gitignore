@@ -48,8 +48,9 @@ build/
 
 # Checkpoints (keep structure, ignore large files)
 # Uncomment if you want to exclude model files
-# medical_qa_checkpoints/**/*.pt
-# medical_qa_checkpoints/**/*.faiss
+# backend/checkpoints/**/*.pt
+# backend/checkpoints/**/*.faiss
+backend/checkpoints/
 
 # Temporary files
 *.tmp

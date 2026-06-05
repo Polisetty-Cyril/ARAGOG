@@ -25,7 +25,7 @@ from datetime import datetime
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))  # backend/models/
 BACKEND_DIR = os.path.dirname(CURRENT_DIR)  # backend/
 PROJECT_ROOT = os.path.dirname(BACKEND_DIR)  # ARAGOG/
-CHECKPOINT_DIR = os.path.join(PROJECT_ROOT, "medical_qa_checkpoints")
+CHECKPOINT_DIR = os.path.join(PROJECT_ROOT, "backend", "checkpoints")
 device = torch.device('cpu')
 
 print("="*70)

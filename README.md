@@ -141,7 +141,7 @@ Traditional medical QA systems face critical challenges:
 
 ## 🏗️ System Architecture
 
-![ARAGOG System Architecture](images/Architecture_diagram.png)
+![ARAGOG System Architecture](docs/images/Architecture_diagram.png)
 
 ---
 
@@ -313,7 +313,7 @@ npm run dev
 4. **Download pre-trained checkpoints**
 ```bash
 # Checkpoints should be placed in:
-# medical_qa_checkpoints/medical_qa_v1.0/
+# backend/checkpoints/medical_qa_v1.0/
 #   ├── metadata.json
 #   ├── moe_router.pt
 #   └── faiss_indexes/
@@ -412,7 +412,7 @@ Authorization: Bearer <token>
 Launch the multi-turn conversation interface:
 
 ```bash
-python src/medical_qa_conversation.py
+python backend/models/medical_qa_conversation.py
 ```
 
 **Features:**
@@ -469,7 +469,7 @@ python src/medical_qa_conversation.py
 For single-query inference without conversation context:
 
 ```bash
-python src/medical_qa_inference.py
+python backend/models/medical_qa_inference.py
 ```
 
 **Use Cases:**
@@ -516,11 +516,11 @@ RAG(Medical)/
 │           ├── aragog.ts                # API client
 │           └── auth.ts                  # Auth service
 │
-├── 📂 src/                              # Source code
+├── 📂 backend/models/                   # Source code
 │   ├── medical_qa_conversation.py       # Multi-turn conversation system
 │   └── medical_qa_inference.py          # Core inference engine
 │
-├── 📂 DataSets/                         # Medical Q&A datasets
+├── 📂 data/                             # Medical Q&A datasets
 │   ├── CancerQA.csv                     # Cancer-related Q&A (729 pairs)
 │   ├── Heart_Lung_and_BloodQA.csv       # Cardiology Q&A (5,000 pairs)
 │   ├── Diabetes_and_Digestive_and_Kidney_DiseasesQA.csv
@@ -547,7 +547,7 @@ RAG(Medical)/
 │   │
 │   └── 📂 faiss_index_notebooks/        # FAISS indexing experiments
 │
-├── 📂 medical_qa_checkpoints/           # Model checkpoints
+├── 📂 backend/checkpoints/              # Model checkpoints
 │   └── medical_qa_v1.0/
 │       ├── metadata.json                # System metadata
 │       ├── moe_router.pt                # MoE model weights
@@ -577,11 +577,11 @@ RAG(Medical)/
 
 ### Key Components
 
-#### 🔧 Source Code (`src/`)
+#### 🔧 Source Code (`backend/models/`)
 - **`medical_qa_conversation.py`**: Multi-turn conversation system with context memory and query enhancement
 - **`medical_qa_inference.py`**: Core inference engine with MoE routing, FAISS retrieval, and LLM reranking
 
-#### 📊 Datasets (`DataSets/`)
+#### 📊 Datasets (`data/`)
 - Comprehensive medical Q&A pairs across 10+ specialties
 - Total: 20,000+ curated question-answer pairs
 - Sources: NIH, CDC, NHLBI, NINDS, NIDDK, and more
@@ -591,7 +591,7 @@ RAG(Medical)/
 - **`RAG Techniques/`**: Advanced retrieval augmentation implementations
 - **`faiss_index_notebooks/`**: Vector indexing experiments
 
-#### 💾 Checkpoints (`medical_qa_checkpoints/`)
+#### 💾 Checkpoints (`backend/checkpoints/`)
 - Pre-trained MoE router (98.10% accuracy)
 - Domain-specific FAISS indexes (9,833 documents)
 - Metadata and version control

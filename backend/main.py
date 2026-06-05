@@ -297,7 +297,7 @@ async def get_research_paper():
 @app.get("/api/document/research-paper/download")
 async def download_research_paper():
     """Download ARAGOG research paper as DOCX"""
-    docx_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "ARAGOG", "ARAGOG_Research_Paper.docx")
+    docx_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "Research_Papers", "ARAGOG_Research_Paper.docx")
     if os.path.exists(docx_path):
         return FileResponse(
             docx_path,

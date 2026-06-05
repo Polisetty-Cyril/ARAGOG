@@ -3,10 +3,18 @@ Medical QA System with Multi-Turn Conversation
 Imports from medical_qa_inference.py to reuse existing code
 """
 
+import os
+import sys
+from datetime import datetime
+
 import torch
 import torch.nn.functional as F
 import numpy as np
-from datetime import datetime
+
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+BACKEND_DIR = os.path.dirname(CURRENT_DIR)
+if BACKEND_DIR not in sys.path:
+    sys.path.insert(0, BACKEND_DIR)
 
 # ============================================================================
 # IMPORT FROM medical_qa_inference.py
@@ -594,7 +602,7 @@ def retrieve_answer_with_context(query, system, memory, k=5):
     """
     
     from difflib import get_close_matches
-    from medical_qa_inference import llm_rerank, validate_medical_answer
+    from models.medical_qa_inference import llm_rerank, validate_medical_answer
     
     trained_moe_model = system['moe_model']
     vector_dbs = system['vector_dbs']

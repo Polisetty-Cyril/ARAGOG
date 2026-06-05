@@ -1,0 +1,46 @@
+# Backend runtime
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+pydantic>=2.6.0
+pydantic[email]>=2.6.0
+email-validator>=2.0.0
+python-multipart>=0.0.6
+python-dotenv>=1.0.0
+PyJWT>=2.8.0
+bcrypt>=4.1.0
+
+# Database
+sqlalchemy>=2.0.0
+mysqlclient>=2.2.0
+pymysql>=1.1.0
+
+# Core ML / retrieval stack
+torch>=2.1.0
+numpy>=1.24.0
+pandas>=2.2.0
+sentence-transformers>=2.2.0
+transformers>=4.36.0
+faiss-cpu>=1.7.4
+datasets>=4.0.0
+scikit-learn>=1.4.0
+nltk>=3.8.0
+rank-bm25>=0.2.2
+keybert[gensim]>=0.8.5
+accelerate>=0.26.0
+sentencepiece>=0.2.0
+pillow>=10.0.0
+
+# Notebook and analysis tooling
+jupyter>=1.0.0
+jupyterlab>=4.0.0
+ipykernel>=6.29.0
+matplotlib>=3.8.0
+seaborn>=0.13.0
+evaluate>=0.4.0
+bert-score>=0.3.13
+rouge-score>=0.1.2
+sacremoses>=0.1.1
+
+# Testing
+pytest>=8.0.0
+httpx>=0.27.0
